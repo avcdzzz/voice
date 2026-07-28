@@ -67,6 +67,8 @@ let activeEngine        = 'deepgram'; // 'deepgram' or 'browser'
 let selectedVoiceKey    = DEEPGRAM_VOICES[0].key;
 let selectedEmotion     = 'neutral';
 let selectedGenderFilter = 'all'; // 'all', 'f', 'm'
+let selectedTypeFilter   = 'all'; // 'all', 'aura2', 'aura1', 'us', 'uk'
+let selectedSearchQuery  = '';
 let systemVoices        = [];
 let mappedBrowserVoices = {};
 
@@ -90,6 +92,8 @@ const synth = window.speechSynthesis;
 window.addEventListener('load', () => {
   initEngineTabs();
   initGenderFilter();
+  initTypeFilter();
+  initVoiceSearch();
   initApiKey();
   initBrowserVoices();
   initSliders();
@@ -105,6 +109,16 @@ window.addEventListener('load', () => {
   document.getElementById('btnStop').addEventListener('click', stop);
 });
 
+// ── Voice Search ──
+function initVoiceSearch() {
+  const input = document.getElementById('voiceSearch');
+  if (!input) return;
+  input.addEventListener('input', e => {
+    selectedSearchQuery = e.target.value.trim().toLowerCase();
+    renderVoiceGrid();
+  });
+}
+
 // ── Gender Filter Switcher ──
 function initGenderFilter() {
   const row = document.getElementById('genderFilterRow');
@@ -115,6 +129,20 @@ function initGenderFilter() {
     row.querySelectorAll('.gchip').forEach(c => c.classList.remove('active'));
     chip.classList.add('active');
     selectedGenderFilter = chip.dataset.gender;
+    renderVoiceGrid();
+  });
+}
+
+// ── Model / Type Filter Switcher ──
+function initTypeFilter() {
+  const row = document.getElementById('typeFilterRow');
+  if (!row) return;
+  row.addEventListener('click', e => {
+    const chip = e.target.closest('.gchip');
+    if (!chip) return;
+    row.querySelectorAll('.gchip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    selectedTypeFilter = chip.dataset.type;
     renderVoiceGrid();
   });
 }
@@ -299,14 +327,36 @@ function renderVoiceGrid() {
 
   const allProfiles = activeEngine === 'deepgram' ? DEEPGRAM_VOICES : BROWSER_PROFILES;
   const filteredProfiles = allProfiles.filter(p => {
-    if (selectedGenderFilter === 'f') return p.gender === 'f';
-    if (selectedGenderFilter === 'm') return p.gender === 'm';
+    // 1. Gender Filter
+    if (selectedGenderFilter === 'f' && p.gender !== 'f') return false;
+    if (selectedGenderFilter === 'm' && p.gender !== 'm') return false;
+
+    // 2. Type / Model / Accent Filter
+    if (selectedTypeFilter === 'aura2' && !p.key.includes('aura-2')) return false;
+    if (selectedTypeFilter === 'aura1' && p.key.includes('aura-2')) return false;
+    if (selectedTypeFilter === 'us' && p.accent !== 'us') return false;
+    if (selectedTypeFilter === 'uk' && p.accent !== 'uk') return false;
+
+    // 3. Search Query Filter
+    if (selectedSearchQuery) {
+      const matchText = `${p.label} ${p.desc} ${p.key} ${p.accent}`.toLowerCase();
+      if (!matchText.includes(selectedSearchQuery)) return false;
+    }
+
     return true;
   });
 
   const voiceCountBadge = document.getElementById('voiceCountBadge');
   if (voiceCountBadge) {
     voiceCountBadge.textContent = `${filteredProfiles.length} Voices`;
+  }
+
+  if (filteredProfiles.length === 0) {
+    const emptyCard = document.createElement('div');
+    emptyCard.className = 'no-voices-found';
+    emptyCard.innerHTML = `🔍 No voices found matching your filters.<br/><span style="font-size:10px;opacity:0.7">Try clearing your search query or selecting "✦ All".</span>`;
+    grid.appendChild(emptyCard);
+    return;
   }
 
   filteredProfiles.forEach(profile => {
