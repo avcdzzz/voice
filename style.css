@@ -400,6 +400,25 @@ audio {
   border-radius: 10px;
 }
 
+.gender-filter-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.gchip {
+  padding: 4px 10px;
+  border-radius: 14px;
+  border: 1px solid var(--cream);
+  background: var(--paper);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .16s;
+}
+.gchip:hover { border-color: var(--gold); color: var(--ink); }
+.gchip.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
 .voice-loading {
   display: flex;
   align-items: center;

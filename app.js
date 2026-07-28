@@ -4,204 +4,51 @@
 
 // ── Deepgram Aura AI Voice Definitions ──
 const DEEPGRAM_VOICES = [
-  {
-    key: 'aura-2-thalia-en',
-    label: 'Thalia (Aura 2)',
-    desc: 'Expressive & captivating',
-    gender: 'f',
-    accent: 'us',
-    emoji: '✨',
-    type: 'ai',
-  },
-  {
-    key: 'aura-asteria-en',
-    label: 'Asteria',
-    desc: 'Warm & conversational',
-    gender: 'f',
-    accent: 'us',
-    emoji: '🌸',
-    type: 'ai',
-  },
-  {
-    key: 'aura-luna-en',
-    label: 'Luna',
-    desc: 'Soft & expressive',
-    gender: 'f',
-    accent: 'us',
-    emoji: '🌙',
-    type: 'ai',
-  },
-  {
-    key: 'aura-stella-en',
-    label: 'Stella',
-    desc: 'Professional & clear',
-    gender: 'f',
-    accent: 'us',
-    emoji: '✨',
-    type: 'ai',
-  },
-  {
-    key: 'aura-athena-en',
-    label: 'Athena',
-    desc: 'Calm & articulate',
-    gender: 'f',
-    accent: 'us',
-    emoji: '🛡️',
-    type: 'ai',
-  },
-  {
-    key: 'aura-hera-en',
-    label: 'Hera',
-    desc: 'Authoritative & polished',
-    gender: 'f',
-    accent: 'us',
-    emoji: '👑',
-    type: 'ai',
-  },
-  {
-    key: 'aura-orion-en',
-    label: 'Orion',
-    desc: 'Deep & authoritative',
-    gender: 'm',
-    accent: 'us',
-    emoji: '🌌',
-    type: 'ai',
-  },
-  {
-    key: 'aura-arcas-en',
-    label: 'Arcas',
-    desc: 'Rich & resonant narrator',
-    gender: 'm',
-    accent: 'us',
-    emoji: '🎙️',
-    type: 'ai',
-  },
-  {
-    key: 'aura-perseus-en',
-    label: 'Perseus',
-    desc: 'Dynamic & engaging',
-    gender: 'm',
-    accent: 'us',
-    emoji: '⚔️',
-    type: 'ai',
-  },
-  {
-    key: 'aura-angus-en',
-    label: 'Angus',
-    desc: 'Deep Irish/Scottish narrator',
-    gender: 'm',
-    accent: 'uk',
-    emoji: '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
-    type: 'ai',
-  },
-  {
-    key: 'aura-orpheus-en',
-    label: 'Orpheus',
-    desc: 'Smooth & confident',
-    gender: 'm',
-    accent: 'us',
-    emoji: '🎭',
-    type: 'ai',
-  },
-  {
-    key: 'aura-helios-en',
-    label: 'Helios',
-    desc: 'Warm & friendly',
-    gender: 'm',
-    accent: 'us',
-    emoji: '☀️',
-    type: 'ai',
-  },
-  {
-    key: 'aura-zeus-en',
-    label: 'Zeus',
-    desc: 'Powerful & commanding',
-    gender: 'm',
-    accent: 'us',
-    emoji: '⚡',
-    type: 'ai',
-  },
+  // ── Female AI Voices ──
+  { key: 'aura-2-thalia-en',  label: 'Thalia (Aura 2)',   desc: 'Expressive & captivating', gender: 'f', accent: 'us', emoji: '✨', type: 'ai' },
+  { key: 'aura-2-asteria-en', label: 'Asteria (Aura 2)',  desc: 'Warm & conversational',    gender: 'f', accent: 'us', emoji: '🌸', type: 'ai' },
+  { key: 'aura-2-luna-en',    label: 'Luna (Aura 2)',     desc: 'Soft & expressive',       gender: 'f', accent: 'us', emoji: '🌙', type: 'ai' },
+  { key: 'aura-2-stella-en',  label: 'Stella (Aura 2)',   desc: 'Professional & clear',    gender: 'f', accent: 'us', emoji: '💎', type: 'ai' },
+  { key: 'aura-2-athena-en',  label: 'Athena (Aura 2)',   desc: 'Calm & articulate',       gender: 'f', accent: 'us', emoji: '🛡️', type: 'ai' },
+  { key: 'aura-2-hera-en',    label: 'Hera (Aura 2)',     desc: 'Authoritative & polished', gender: 'f', accent: 'us', emoji: '👑', type: 'ai' },
+  { key: 'aura-asteria-en',   label: 'Asteria (Classic)', desc: 'Warm & friendly',         gender: 'f', accent: 'us', emoji: '🌸', type: 'ai' },
+  { key: 'aura-luna-en',      label: 'Luna (Classic)',    desc: 'Soft narrator',           gender: 'f', accent: 'us', emoji: '🌙', type: 'ai' },
+  { key: 'aura-stella-en',    label: 'Stella (Classic)',  desc: 'Clear & articulate',      gender: 'f', accent: 'us', emoji: '✨', type: 'ai' },
+  { key: 'aura-athena-en',    label: 'Athena (Classic)',  desc: 'Gentle & calm',           gender: 'f', accent: 'us', emoji: '🕊️', type: 'ai' },
+  { key: 'aura-hera-en',      label: 'Hera (Classic)',    desc: 'Polished speaker',        gender: 'f', accent: 'us', emoji: '👑', type: 'ai' },
+
+  // ── Male AI Voices ──
+  { key: 'aura-2-orion-en',   label: 'Orion (Aura 2)',    desc: 'Deep & authoritative',    gender: 'm', accent: 'us', emoji: '🌌', type: 'ai' },
+  { key: 'aura-2-arcas-en',   label: 'Arcas (Aura 2)',    desc: 'Rich & resonant narrator',gender: 'm', accent: 'us', emoji: '🎙️', type: 'ai' },
+  { key: 'aura-2-perseus-en', label: 'Perseus (Aura 2)',  desc: 'Dynamic & engaging',      gender: 'm', accent: 'us', emoji: '⚔️', type: 'ai' },
+  { key: 'aura-2-angus-en',   label: 'Angus (Aura 2)',    desc: 'Deep Irish narrator',     gender: 'm', accent: 'uk', emoji: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', type: 'ai' },
+  { key: 'aura-2-orpheus-en', label: 'Orpheus (Aura 2)',  desc: 'Smooth & confident',      gender: 'm', accent: 'us', emoji: '🎭', type: 'ai' },
+  { key: 'aura-2-helios-en',  label: 'Helios (Aura 2)',   desc: 'Warm & friendly',         gender: 'm', accent: 'us', emoji: '☀️', type: 'ai' },
+  { key: 'aura-2-zeus-en',    label: 'Zeus (Aura 2)',     desc: 'Powerful & commanding',   gender: 'm', accent: 'us', emoji: '⚡', type: 'ai' },
+  { key: 'aura-orion-en',     label: 'Orion (Classic)',   desc: 'Deep voice',              gender: 'm', accent: 'us', emoji: '🌌', type: 'ai' },
+  { key: 'aura-arcas-en',     label: 'Arcas (Classic)',   desc: 'Audiobook narrator',      gender: 'm', accent: 'us', emoji: '🎙️', type: 'ai' },
+  { key: 'aura-perseus-en',   label: 'Perseus (Classic)', desc: 'Energetic voice',         gender: 'm', accent: 'us', emoji: '⚔️', type: 'ai' },
+  { key: 'aura-angus-en',     label: 'Angus (Classic)',   desc: 'Scottish/Irish narrator', gender: 'm', accent: 'uk', emoji: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', type: 'ai' },
+  { key: 'aura-orpheus-en',   label: 'Orpheus (Classic)', desc: 'Smooth delivery',         gender: 'm', accent: 'us', emoji: '🎭', type: 'ai' },
+  { key: 'aura-helios-en',    label: 'Helios (Classic)',  desc: 'Friendly tone',           gender: 'm', accent: 'us', emoji: '☀️', type: 'ai' },
+  { key: 'aura-zeus-en',      label: 'Zeus (Classic)',    desc: 'Commanding tone',         gender: 'm', accent: 'us', emoji: '⚡', type: 'ai' },
 ];
 
 // ── Browser Web Speech Voice Profiles ──
 const BROWSER_PROFILES = [
-  {
-    key: 'james_deep',
-    label: 'James',
-    desc: 'Deep & commanding',
-    type: 'deep',
-    accent: 'us',
-    emoji: '🔊',
-    targets: ['google us english male', 'alex', 'daniel', 'fred', 'microsoft david'],
-    pitchOffset: -0.25,
-    rateOffset: -0.05,
-  },
-  {
-    key: 'marcus_deep',
-    label: 'Marcus',
-    desc: 'Rich & authoritative',
-    type: 'deep',
-    accent: 'us',
-    emoji: '🎙️',
-    targets: ['fred', 'daniel', 'thomas', 'microsoft david', 'google us english male'],
-    pitchOffset: -0.35,
-    rateOffset: -0.08,
-  },
-  {
-    key: 'noah',
-    label: 'Noah',
-    desc: 'Smooth & warm narrator',
-    type: 'm',
-    accent: 'us',
-    emoji: '🎤',
-    targets: ['alex', 'daniel', 'google us english male', 'microsoft david'],
-    pitchOffset: -0.05,
-    rateOffset: 0,
-  },
-  {
-    key: 'eleanor',
-    label: 'Eleanor',
-    desc: 'Expressive & captivating',
-    type: 'f',
-    accent: 'us',
-    emoji: '🌸',
-    targets: ['samantha', 'victoria', 'google us english female', 'microsoft zira'],
-    pitchOffset: 0.1,
-    rateOffset: 0,
-  },
-  {
-    key: 'claire',
-    label: 'Claire',
-    desc: 'Clear & bright',
-    type: 'f',
-    accent: 'us',
-    emoji: '✨',
-    targets: ['karen', 'moira', 'google us english female', 'microsoft zira'],
-    pitchOffset: 0.2,
-    rateOffset: 0.05,
-  },
-  {
-    key: 'oliver',
-    label: 'Oliver',
-    desc: 'Crisp & refined narrator',
-    type: 'm',
-    accent: 'uk',
-    emoji: '🫖',
-    targets: ['daniel', 'google uk english male', 'microsoft george', 'rishi'],
-    pitchOffset: -0.08,
-    rateOffset: -0.05,
-  },
-  {
-    key: 'serena',
-    label: 'Serena',
-    desc: 'Elegant British female',
-    type: 'f',
-    accent: 'uk',
-    emoji: '🌹',
-    targets: ['kate', 'google uk english female', 'microsoft hazel', 'fiona'],
-    pitchOffset: 0.05,
-    rateOffset: -0.05,
-  },
+  // Male Profiles
+  { key: 'james_deep',  label: 'James',    desc: 'Deep & commanding',     type: 'deep', gender: 'm', accent: 'us', emoji: '🔊', targets: ['google us english male', 'alex', 'daniel', 'fred', 'microsoft david'], pitchOffset: -0.25, rateOffset: -0.05 },
+  { key: 'marcus_deep', label: 'Marcus',   desc: 'Rich & authoritative',  type: 'deep', gender: 'm', accent: 'us', emoji: '🎙️', targets: ['fred', 'daniel', 'thomas', 'microsoft david', 'google us english male'], pitchOffset: -0.35, rateOffset: -0.08 },
+  { key: 'noah',        label: 'Noah',     desc: 'Smooth & warm narrator', type: 'm',    gender: 'm', accent: 'us', emoji: '🎤', targets: ['alex', 'daniel', 'google us english male', 'microsoft david'], pitchOffset: -0.05, rateOffset: 0 },
+  { key: 'oliver',      label: 'Oliver',   desc: 'Crisp British narrator', type: 'm',    gender: 'm', accent: 'uk', emoji: '🫖', targets: ['daniel', 'google uk english male', 'microsoft george', 'rishi'], pitchOffset: -0.08, rateOffset: -0.05 },
+  { key: 'rishi_m',     label: 'Rishi',    desc: 'Articulate & clear',    type: 'm',    gender: 'm', accent: 'us', emoji: '👔', targets: ['rishi', 'google us english male', 'alex'], pitchOffset: 0, rateOffset: 0 },
+
+  // Female Profiles
+  { key: 'eleanor',     label: 'Eleanor',  desc: 'Expressive & captivating', type: 'f', gender: 'f', accent: 'us', emoji: '🌸', targets: ['samantha', 'victoria', 'google us english female', 'microsoft zira'], pitchOffset: 0.1, rateOffset: 0 },
+  { key: 'claire',      label: 'Claire',   desc: 'Clear & bright',           type: 'f', gender: 'f', accent: 'us', emoji: '✨', targets: ['karen', 'moira', 'google us english female', 'microsoft zira'], pitchOffset: 0.2, rateOffset: 0.05 },
+  { key: 'serena',      label: 'Serena',   desc: 'Elegant British female',   type: 'f', gender: 'f', accent: 'uk', emoji: '🌹', targets: ['kate', 'google uk english female', 'microsoft hazel', 'fiona'], pitchOffset: 0.05, rateOffset: -0.05 },
+  { key: 'fiona_f',     label: 'Fiona',    desc: 'Warm & melodic',           type: 'f', gender: 'f', accent: 'uk', emoji: '🌿', targets: ['fiona', 'kate', 'google uk english female'], pitchOffset: 0.08, rateOffset: -0.02 },
+  { key: 'maria',       label: 'Maria',    desc: 'Bright & cheerful',        type: 'ph',gender: 'f', accent: 'ph', emoji: '🌺', targets: ['google filipino', 'fil-ph', 'filipina', 'samantha'], pitchOffset: 0.08, rateOffset: 0.05 },
 ];
 
 // ── Emotion presets ──
@@ -219,6 +66,7 @@ const EMOTIONS = {
 let activeEngine        = 'deepgram'; // 'deepgram' or 'browser'
 let selectedVoiceKey    = DEEPGRAM_VOICES[0].key;
 let selectedEmotion     = 'neutral';
+let selectedGenderFilter = 'all'; // 'all', 'f', 'm'
 let systemVoices        = [];
 let mappedBrowserVoices = {};
 
@@ -241,6 +89,7 @@ const synth = window.speechSynthesis;
 // ── Boot ──
 window.addEventListener('load', () => {
   initEngineTabs();
+  initGenderFilter();
   initApiKey();
   initBrowserVoices();
   initSliders();
@@ -255,6 +104,20 @@ window.addEventListener('load', () => {
   document.getElementById('btnPause').addEventListener('click', togglePause);
   document.getElementById('btnStop').addEventListener('click', stop);
 });
+
+// ── Gender Filter Switcher ──
+function initGenderFilter() {
+  const row = document.getElementById('genderFilterRow');
+  if (!row) return;
+  row.addEventListener('click', e => {
+    const chip = e.target.closest('.gchip');
+    if (!chip) return;
+    row.querySelectorAll('.gchip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    selectedGenderFilter = chip.dataset.gender;
+    renderVoiceGrid();
+  });
+}
 
 // ── Engine Mode Switcher ──
 function initEngineTabs() {
@@ -434,9 +297,19 @@ function renderVoiceGrid() {
   grid.style.display = 'flex';
   grid.innerHTML = '';
 
-  const profiles = activeEngine === 'deepgram' ? DEEPGRAM_VOICES : BROWSER_PROFILES;
+  const allProfiles = activeEngine === 'deepgram' ? DEEPGRAM_VOICES : BROWSER_PROFILES;
+  const filteredProfiles = allProfiles.filter(p => {
+    if (selectedGenderFilter === 'f') return p.gender === 'f';
+    if (selectedGenderFilter === 'm') return p.gender === 'm';
+    return true;
+  });
 
-  profiles.forEach(profile => {
+  const voiceCountBadge = document.getElementById('voiceCountBadge');
+  if (voiceCountBadge) {
+    voiceCountBadge.textContent = `${filteredProfiles.length} Voices`;
+  }
+
+  filteredProfiles.forEach(profile => {
     const isDeepgram = activeEngine === 'deepgram';
     const avatarClass = isDeepgram
       ? (profile.gender === 'm' ? 'va-m' : 'va-f')
