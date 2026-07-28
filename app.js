@@ -432,6 +432,39 @@ function speak() {
   }
 }
 
+// ── Smart Text Chunker for Long Passages ──
+function splitTextIntoChunks(text, maxChars = 1400) {
+  if (text.length <= maxChars) return [text];
+
+  const sentences = text.match(/[^.!?\n]+[.!?\n]+|\S+/g) || [text];
+  const chunks = [];
+  let currentChunk = '';
+
+  for (const sentence of sentences) {
+    if ((currentChunk + sentence).length > maxChars) {
+      if (currentChunk.trim()) chunks.push(currentChunk.trim());
+      if (sentence.length > maxChars) {
+        let sub = sentence;
+        while (sub.length > maxChars) {
+          chunks.push(sub.slice(0, maxChars));
+          sub = sub.slice(maxChars);
+        }
+        currentChunk = sub;
+      } else {
+        currentChunk = sentence;
+      }
+    } else {
+      currentChunk += sentence;
+    }
+  }
+
+  if (currentChunk.trim()) {
+    chunks.push(currentChunk.trim());
+  }
+
+  return chunks;
+}
+
 // ── Speak via Deepgram Aura TTS API ──
 async function speakDeepgram(text) {
   const apiKey = (localStorage.getItem('velvet_deepgram_key') || '').trim();
@@ -444,32 +477,47 @@ async function speakDeepgram(text) {
   const voiceObj = DEEPGRAM_VOICES.find(v => v.key === selectedVoiceKey) || DEEPGRAM_VOICES[0];
   const rateVal = parseFloat(document.getElementById('rateSlider').value);
 
-  setStatus('active', `Generating Deepgram AI voice for ${voiceObj.label}…`);
+  const textChunks = splitTextIntoChunks(text, 1400);
+
   setBtnState('speaking');
   startWave();
 
   try {
-    const response = await fetch(`https://api.deepgram.com/v1/speak?model=${voiceObj.key}`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Token ${apiKey}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ text: text })
-    });
+    const audioBlobs = [];
 
-    if (!response.ok) {
-      let errText = '';
-      try {
-        const errJson = await response.json();
-        errText = errJson.err_msg || errJson.message || response.statusText;
-      } catch (_) {
-        errText = response.statusText;
+    for (let i = 0; i < textChunks.length; i++) {
+      if (textChunks.length > 1) {
+        setStatus('active', `Generating Deepgram AI voice (${i + 1}/${textChunks.length})…`);
+      } else {
+        setStatus('active', `Generating Deepgram AI voice for ${voiceObj.label}…`);
       }
-      throw new Error(`API Error (${response.status}): ${errText || 'Invalid API Key or quota exceeded'}`);
+
+      const response = await fetch(`https://api.deepgram.com/v1/speak?model=${voiceObj.key}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Token ${apiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text: textChunks[i] })
+      });
+
+      if (!response.ok) {
+        let errText = '';
+        try {
+          const errJson = await response.json();
+          errText = errJson.err_msg || errJson.message || response.statusText;
+        } catch (_) {
+          errText = response.statusText;
+        }
+        throw new Error(`API Error (${response.status}): ${errText || 'Invalid API Key or payload error'}`);
+      }
+
+      const chunkBlob = await response.blob();
+      audioBlobs.push(chunkBlob);
     }
 
-    const audioBlob = await response.blob();
+    // Stitch all chunk Blobs into a single seamless MP3 file
+    const audioBlob = new Blob(audioBlobs, { type: 'audio/mp3' });
     if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
     currentAudioUrl = URL.createObjectURL(audioBlob);
 
