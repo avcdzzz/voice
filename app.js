@@ -5,6 +5,15 @@
 // ── Deepgram Aura AI Voice Definitions ──
 const DEEPGRAM_VOICES = [
   {
+    key: 'aura-2-thalia-en',
+    label: 'Thalia (Aura 2)',
+    desc: 'Expressive & captivating',
+    gender: 'f',
+    accent: 'us',
+    emoji: '✨',
+    type: 'ai',
+  },
+  {
     key: 'aura-asteria-en',
     label: 'Asteria',
     desc: 'Warm & conversational',
@@ -307,14 +316,13 @@ function initApiKey() {
   const toggleBtn = document.getElementById('btnToggleKey');
   const statusMsg = document.getElementById('apiKeyStatus');
 
-  const savedKey = localStorage.getItem('velvet_deepgram_key') || '';
-  if (savedKey) {
-    keyInput.value = savedKey;
-    statusMsg.textContent = '✓ Saved API Key loaded.';
-    statusMsg.style.color = 'var(--green)';
-  } else {
-    statusMsg.textContent = 'Key stored locally in browser storage.';
-  }
+  const defaultKey = '8adad486ad7238df4b0f711e6395938d8f25b840';
+  const savedKey = localStorage.getItem('velvet_deepgram_key') || defaultKey;
+  keyInput.value = savedKey;
+  localStorage.setItem('velvet_deepgram_key', savedKey);
+
+  statusMsg.textContent = '✓ Ready: API Key active.';
+  statusMsg.style.color = 'var(--green)';
 
   keyInput.addEventListener('input', () => {
     const val = keyInput.value.trim();
