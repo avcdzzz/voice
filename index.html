@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velvet Voice – Studio TTS Engine & AI Voices</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo"><span class="logo-dot"></span>Velvet Voice</div>
+  <div class="header-right">
+    <div class="engine-badge" id="engineBadge">DEEPGRAM AI NEURAL</div>
+  </div>
+</header>
+
+<main>
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+
+    <div class="info-bar" id="infoBar">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span id="infoBarTxt">Powered by <strong>Deepgram Aura AI Voices</strong> for hyper-realistic speech &amp; direct MP3 downloads. Enter your API key on the right or switch to Browser Voices mode.</span>
+    </div>
+
+    <div>
+      <div class="slabel">Your Text</div>
+      <div class="textarea-wrap">
+        <textarea id="textInput" maxlength="5000"
+          placeholder="Type or paste your narration, script, story, article…&#10;&#10;Velvet Voice will read it with natural emotion and pacing.">The amber light of late afternoon fell softly through the window, casting long shadows across the worn wooden floor. She sat quietly, her hands folded in her lap, wondering how so much time could pass without her ever noticing. Outside, the city moved on — indifferent, relentless — but in here, time had learned to be still.</textarea>
+        <span class="char-count" id="charCount">0 / 5000</span>
+      </div>
+    </div>
+
+    <!-- Waveform -->
+    <div class="wave-wrap">
+      <canvas id="waveform"></canvas>
+      <span class="ptime" id="playTime">00:00</span>
+    </div>
+
+    <!-- Audio Player Output & Download -->
+    <div class="audio-wrap" id="audioWrap">
+      <div class="slabel">Audio Output</div>
+      <audio id="audioPlayer" controls></audio>
+      <a class="dl-btn" id="dlBtn" download="velvet-voice.mp3">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Audio File (.mp3)
+      </a>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls-row">
+      <button class="btn-speak" id="btnSpeak">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Generate &amp; Speak
+      </button>
+      <button class="btn-secondary" id="btnPause">Pause</button>
+      <button class="btn-secondary" id="btnStop">Stop</button>
+    </div>
+
+    <div class="status-bar">
+      <span class="sdot" id="sdot"></span>
+      <span id="statusTxt">Select a voice, set your tone, and press Speak.</span>
+    </div>
+
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+
+    <!-- Engine Mode Switcher -->
+    <div class="card engine-card">
+      <div class="card-title">Voice Engine</div>
+      <div class="engine-tabs">
+        <button class="engine-tab active" id="tabDeepgram" data-engine="deepgram">
+          <span class="et-icon">✨</span>
+          <span class="et-name">Deepgram AI</span>
+          <span class="et-sub">Studio HD</span>
+        </button>
+        <button class="engine-tab" id="tabBrowser" data-engine="browser">
+          <span class="et-icon">🌐</span>
+          <span class="et-name">Browser Voices</span>
+          <span class="et-sub">Free / Native</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Deepgram API Key Config Card (Shown when Deepgram engine active) -->
+    <div class="card api-card" id="apiCard">
+      <div class="card-title-row">
+        <span class="card-title">Deepgram API Key</span>
+        <a href="https://console.deepgram.com/signup" target="_blank" class="api-link">Get Free Key ($200) →</a>
+      </div>
+      <div class="api-input-wrap">
+        <input type="password" id="apiKeyInput" placeholder="Enter Deepgram API Key (e.g. 5a1b...)" autocomplete="off" />
+        <button id="btnToggleKey" class="btn-key-toggle" title="Show/Hide Key">👁️</button>
+      </div>
+      <div class="api-status-row">
+        <span id="apiKeyStatus" class="api-status-msg">Key saved in browser local storage.</span>
+      </div>
+    </div>
+
+    <!-- System Voice Dropdown (Shown when Browser engine active) -->
+    <div class="card sys-voice-card" id="sysVoiceCard" style="display: none;">
+      <div class="card-title">Direct OS System Voice</div>
+      <select id="sysVoiceSelect" class="voice-select">
+        <option value="">Loading system voices…</option>
+      </select>
+      <div class="sys-voice-hint">Select any installed voice directly from your operating system.</div>
+    </div>
+
+    <!-- Voice Selector Grid -->
+    <div class="card">
+      <div class="card-title-row">
+        <span class="card-title" id="voiceGridTitle">AI Neural Voices</span>
+        <span class="voice-count-badge" id="voiceCountBadge">12 Voices</span>
+      </div>
+      <div class="voice-loading" id="voiceLoading">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/></path></svg>
+        Loading voices…
+      </div>
+      <div class="vgrid" id="voiceGrid" style="display:none"></div>
+    </div>
+
+    <!-- Tone & Emotion -->
+    <div class="card">
+      <div class="card-title">Tone &amp; Pacing</div>
+      <div class="echips" id="emotionRow">
+        <span class="chip active" data-e="neutral">✦ Neutral</span>
+        <span class="chip" data-e="story">📖 Story</span>
+        <span class="chip" data-e="warm">🌿 Warm</span>
+        <span class="chip" data-e="dramatic">🎭 Dramatic</span>
+        <span class="chip" data-e="calm">🌊 Calm</span>
+        <span class="chip" data-e="news">📰 Newscast</span>
+        <span class="chip" data-e="intense">⚡ Intense</span>
+      </div>
+    </div>
+
+    <!-- Fine-tune -->
+    <div class="card">
+      <div class="card-title">Playback Controls</div>
+      <div class="sgroup">
+        <div class="srow">
+          <div class="stop"><span class="slbl">Speed</span><span class="sval" id="rateVal">1.00×</span></div>
+          <input type="range" id="rateSlider" min="0.5" max="2.0" step="0.05" value="1.0">
+        </div>
+        <div class="srow">
+          <div class="stop"><span class="slbl">Pitch</span><span class="sval" id="pitchVal">1.00</span></div>
+          <input type="range" id="pitchSlider" min="0.5" max="2.0" step="0.05" value="1.0">
+        </div>
+        <div class="srow">
+          <div class="stop"><span class="slbl">Volume</span><span class="sval" id="volVal">100%</span></div>
+          <input type="range" id="volSlider" min="0" max="1" step="0.01" value="1">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>VELVET VOICE · DEEPGRAM AURA &amp; WEB SPEECH ENGINE · OPEN SOURCE</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
